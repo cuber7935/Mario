@@ -56,8 +56,8 @@ void RoleFlagPoint::moveDown(float dt)
 		// 如果未来的那个位置，有阻挡，再退回来
 		this->setPositionY(this->getPositionY() + _speedDown*dt);
 
-		this->moveDownAjust();
-
+		//this->moveDownAjust();
+		util->moveDownAjust(this);
 
 		// 044. Mario这帧有阻挡，上一次调用这个函数有两种情况
 		// a.上一次调用时就已经落地

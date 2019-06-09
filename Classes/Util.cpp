@@ -77,3 +77,12 @@ bool Util::isCoodInMap(TMXTiledMap * map, Vec2 pos)
 {
 	return pos.x < map->getMapSize().width && pos.y < map->getMapSize().height && pos.x >= 0 && pos.y >= 0;
 }
+
+// 微调
+void Util::moveDownAjust(Sprite* sprite)
+{
+	// 微调数值是？？？？
+	int y = sprite->getPositionY();
+	y = y / 16 * 16;
+	sprite->setPositionY(y);
+}

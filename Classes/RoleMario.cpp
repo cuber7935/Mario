@@ -1,12 +1,11 @@
 #include "RoleMario.h"
 
-// 032. Mario对象的创始花
+// Mario对象的创始化
 bool RoleMario::init(ValueMap& objProperty)
 {
 	Role::init(objProperty);
 
-	// this->runAnimation(ANI_MARIO_WALK_RIGHT_SML);
-	// 033. 根据状态来显示Mario的样子，状态什么时候初始化？？该对象被创建时，构造时，已经初始化
+	// 根据状态来显示Mario的样子，状态什么时候初始化？？该对象被创建时，构造时，已经初始化
 	updateStatus();
 
 	/* 034. 启动定时器，检测mario下降，任何时候都要检测马里奥是否能下降
@@ -106,24 +105,11 @@ void RoleMario::moveRight(float dt)
 	if (isBlockRight())
 	{
 		this->setPositionX(this->getPositionX() - dt*_speed);
-#if 0
-	//	int x = this->getPositionX();
-	//	setPositionX(x / 16 * 16);
-
-		Rect rc = this->getBoundingBox();
-		int maxX = rc.getMaxX();
-		maxX = maxX / 16 * 16;
-
-		int minX = maxX - rc.size.width;
-		setPositionX(minX);
-#endif
 		return;
 	}
-
-	
 }
 
-// 040. 向上移动实现代码
+// 向上移动
 void RoleMario::moveUp(float dt)
 {
 	if (_speedUp <= 0)
@@ -142,20 +128,12 @@ void RoleMario::moveUp(float dt)
 
 	if (isBlockUp())
 	{
-#if 0
-		/* 顶动砖头 */
-		Sprite* sprite = getHitBlock();
-		if (sprite)
-			sprite->runAction(JumpBy::create(0.2f, Vec2(0, 0), 30, 1));
-	
-#endif
 		// 通知Model模块，sprite被顶了
 		/* 顶动砖头 */
 		Sprite* sprite = getHitBlock();
 		if (sprite)
 		{
 			// 发送自定义消息
-		//	sprite->retain();
 			Director::getInstance()->getEventDispatcher()->dispatchCustomEvent("hitblock", sprite);
 		}
 
@@ -171,12 +149,12 @@ void RoleMario::moveUp(float dt)
 		_speedUp = 0;
 	}
 
-	// 041. 每帧移动之后，将速度减小重力加速度
+	// 每帧移动之后，将速度减小重力加速度
 	_speedUp -= _gravity;
 }
 
 /*
-	015001: Mario的下降控制流程：
+	Mario的下降控制流程：
 	1. 根据定时器的间隔时间和当前的下降速度，将Mario移动到目标位置
 	2. 判断目标位置是否合法
 	3. 如果不合法，说明mario脚下被阻挡，将Mario移回来
@@ -184,7 +162,7 @@ void RoleMario::moveUp(float dt)
 */
 void RoleMario::moveDown(float dt)
 {
-	// 043. _speedUp如果大于0，说明Mario还在跳跃状态
+	//  _speedUp如果大于0，说明Mario还在跳跃状态
 	//      如果脚下有阻挡，说明着地了，也不能下降
 	if (_speedUp > 0) return;
 	if (_dead)
@@ -212,9 +190,10 @@ void RoleMario::moveDown(float dt)
 		// 如果未来的那个位置，有阻挡，再退回来
 		this->setPositionY(this->getPositionY() + _speedDown*dt);
 
-		this->moveDownAjust();
+		//this->moveDownAjust();
+		util->moveDownAjust(this);
 
-		// 044. Mario这帧有阻挡，上一次调用这个函数有两种情况
+		// Mario这帧有阻挡，上一次调用这个函数有两种情况
 		// a.上一次调用时就已经落地
 		// b.上一次调用该函数moveDown时，没有被阻挡
 		_speedDown = _gravity;
@@ -222,13 +201,9 @@ void RoleMario::moveDown(float dt)
 		return;
 	}
 	
-	
-	
-	// 045. 设置flying状态为true
+	// 设置flying状态为true
 	setFlying(true);
 
-	// 设置Mario的位置
-//	this->setPositionY(this->getPositionY() - _speedDown*dt);
 	// 增加下降速度
 	_speedDown += _gravity;
 }
@@ -258,7 +233,7 @@ void RoleMario::stop()
 
 void RoleMario::Dead()
 {
-#if 0
+#if 0     //无敌
 	return;
 #endif
 	if (_godMode)
@@ -273,7 +248,7 @@ void RoleMario::Dead()
 	setDead(true);
 }
 
-// 035. 实现Mario的跳跃
+//  实现Mario的跳跃
 //  跳跃：为了实现重力效果，利用定时器来控制mario的跳跃运动
 void RoleMario::jump()
 {
@@ -282,31 +257,16 @@ void RoleMario::jump()
 
 	_ladder = nullptr;
 
-	// 037. 如果Mario在飞行状态下，不能再跳
+	// 如果Mario在飞行状态下，不能再跳
 	if (_flying)
 		return;
 
-	// 036. 改变Mario的属性，并且改变Mario的表现形式
+	// 改变Mario的属性，并且改变Mario的表现形式
 	setFlying(true);
 
-	// 038. 跳跃,就是向上移动，为了实现重力效果，跳跃使用向上速度实现
+	// 跳跃,就是向上移动，为了实现重力效果，跳跃使用向上速度实现
 	// 将向上运动速度设置成300
 	_speedUp = 300;
-	
-
-#if 0
-	// 实现mario的跳跃
-	if (_flying)
-		return;
-		
-	stopAllActions();
-
-	setSpriteFrame(FRA_MARIO_JUMP_RIGHT_SML);
-
-	_flying = true;
-	_speedUp = 300;
-	schedule(schedule_selector(RoleMario::moveUp));
-#endif
 }
 
 void RoleMario::updateStatus()
@@ -316,13 +276,13 @@ void RoleMario::updateStatus()
 	if (_autoCtrl1)
 	{
 		if (_big)
-			setSpriteFrameByAnimation(ANI_MARIO_WALK_RIGHT_BIG);
+			this->setDisplayFrameWithAnimationName(ANI_MARIO_WALK_RIGHT_BIG, 0);
 		else
-			setSpriteFrameByAnimation(ANI_MARIO_WALK_RIGHT_SML);
+			this->setDisplayFrameWithAnimationName(ANI_MARIO_WALK_RIGHT_BIG, 0);
 		return;
 	}
 
-	// 1. 翻跟斗
+	//  翻跟斗
 	if (_dead)
 	{
 		runAnimation(ANI_MARIO_DIE_SML);
@@ -363,11 +323,11 @@ void RoleMario::updateStatus()
 			{
 				if (_right)
 				{
-					setSpriteFrameByAnimation(ANI_MARIO_WALK_RIGHT_BIG);
+					this->setDisplayFrameWithAnimationName(ANI_MARIO_WALK_RIGHT_BIG, 0);
 				}
 				else
 				{
-					setSpriteFrameByAnimation(ANI_MARIO_WALK_LEFT_BIG);
+					this->setDisplayFrameWithAnimationName(ANI_MARIO_WALK_LEFT_BIG, 0);
 				}
 			}
 		}
@@ -403,15 +363,34 @@ void RoleMario::updateStatus()
 			{
 				if (_right)
 				{
-					setSpriteFrameByAnimation(ANI_MARIO_WALK_RIGHT_SML);
+					this->setDisplayFrameWithAnimationName(ANI_MARIO_WALK_RIGHT_SML, 0);
 				}
 				else
 				{
-					setSpriteFrameByAnimation(ANI_MARIO_WALK_LEFT_SML);
+					this->setDisplayFrameWithAnimationName(ANI_MARIO_WALK_LEFT_SML, 0);
 				}
 			}
 		}
 	}
 }
 
+void RoleMario::setGodMode(float duration)
+{
+	// 上帝模式一般使用半透明形象
+	this->setOpacity(128);
 
+	// 设置上帝模式
+	_godMode = true;
+
+	//DelayTime* delay = DelayTime::create(duration);
+	// 当duration时间过去之后，再设置为非无敌模式
+	Blink* blink = Blink::create(duration, duration * 2);
+	CallFunc* callf = CallFunc::create(CC_CALLBACK_0(RoleMario::unsetGodMode, this));
+	this->runAction(Sequence::create(blink, callf, NULL));
+}
+
+void RoleMario::unsetGodMode()
+{
+	this->setOpacity(255);
+	_godMode = false;
+}

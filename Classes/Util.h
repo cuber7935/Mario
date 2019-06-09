@@ -48,6 +48,9 @@ public:
 	//是否在地图坐标系中
 	bool isCoodInMap(TMXTiledMap* map, Vec2 pos);
 
+	// 微调
+	void moveDownAjust(Sprite* sprite);
+
 private:
 	Util(){}
 };

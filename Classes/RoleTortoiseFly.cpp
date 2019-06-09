@@ -34,12 +34,13 @@ void RoleTortoiseFly::updateStatus()
 			stopAnimation();
 			if (_right)
 			{
-			//	this->setDisplayFrameWithAnimationName(ANI_TORTOISE_RUN_RIGHT, 0);
-				setSpriteFrameByAnimation(ANI_TORTOISE_RUN_RIGHT);
+				this->setDisplayFrameWithAnimationName(ANI_TORTOISE_RUN_RIGHT, 0);
+				//setSpriteFrameByAnimation(ANI_TORTOISE_RUN_RIGHT);
 			}
 			else
 			{
-				setSpriteFrameByAnimation(ANI_TORTOISE_RUN_LEFT);
+				this->setDisplayFrameWithAnimationName(ANI_TORTOISE_RUN_LEFT, 0);
+				//setSpriteFrameByAnimation(ANI_TORTOISE_RUN_LEFT);
 			}
 		}
 		else  // ÒÑ¾­ÂäµØ
@@ -109,8 +110,8 @@ void RoleTortoiseFly::moveDown(float dt)
 		if (isBlockDown())
 		{
 			this->setPositionY(this->getPositionY() + _speedDown*dt);
-
-			this->moveDownAjust();
+			
+			util->moveDownAjust(this);
 
 			_speedDown = _gravity;
 

@@ -107,7 +107,7 @@ void RoleBoss::moveDown(float dt)
 	if (isBlockDown())
 	{
 		this->setPositionY(this->getPositionY() + dt*_speedDown);
-		this->moveDownAjust();
+		util->moveDownAjust(this);
 		_speedDown = _gravity;
 		return;
 	}

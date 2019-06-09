@@ -105,14 +105,6 @@ void Role::setDead(bool deadByHit)
 	updateStatus();
 }
 
-// 微调
-void Role::moveDownAjust()
-{
-	// 微调数值是？？？？
-	int y = this->getPositionY();
-	y = y / 16 * 16;
-	this->setPositionY(y);
-}
 
 void Role::setSpriteFrame(const char* name)
 {
@@ -289,6 +281,27 @@ void Role::move(float dt)
 	moveDown(dt);
 }
 
+void Role::setType(std::string type)
+{
+	_type = type;
+}
+
+std::string Role::getType()const
+{
+	return _type;
+}
+#if 0
+void Role::setStatus(Status status)
+{
+	_status = status;
+}
+
+Role::Status Role::getStatus()const
+{
+	return _status;
+}
+#endif
+#if 0
 void Role::setGodMode(float duration)
 {
 	// 上帝模式一般使用半透明形象
@@ -303,6 +316,7 @@ void Role::setGodMode(float duration)
 	CallFunc* callf = CallFunc::create(CC_CALLBACK_0(Role::unsetGodMode, this));
 	this->runAction(Sequence::create(blink, callf, NULL));
 }
+
 void Role::unsetGodMode()
 {
 	this->setOpacity(255);
@@ -317,22 +331,4 @@ void Role::setSpriteFrameByAnimation(const char* name)
 	Sprite::setSpriteFrame(aniFrame->getSpriteFrame());
 }
 
-void Role::setType(std::string type)
-{
-	_type = type;
-}
-
-std::string Role::getType()const
-{
-	return _type;
-}
-
-void Role::setStatus(Status status)
-{
-	_status = status;
-}
-
-Role::Status Role::getStatus()const
-{
-	return _status;
-}
+#endif
