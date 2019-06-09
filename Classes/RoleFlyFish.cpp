@@ -11,9 +11,6 @@ bool RoleFlyFish::init(ValueMap& objProperty)
 	_ori = getPosition();
 	_dst = _ori + Vec2(_offsetH, _offsetV);
 
-
-//	runAnimation(ANI_FLYFISH_LEFT);
-
 	updateStatus();
 
 	return true;
@@ -21,7 +18,6 @@ bool RoleFlyFish::init(ValueMap& objProperty)
 
 void RoleFlyFish::updateStatus()
 {
-	//stopAllActions();
 	stopAnimation();
 
 	Vec2 dst;
@@ -46,6 +42,12 @@ void RoleFlyFish::updateStatus()
 
 	CallFunc* c = CallFunc::create(CC_CALLBACK_0(RoleFlyFish::callback, this));
 	this->runAction(Sequence::createWithTwoActions(b, c));
+}
+
+void RoleFlyFish::callback()
+{
+	_right = !_right;
+	updateStatus();
 }
 
 Role::CollisionResult RoleFlyFish::collsion(Role* mario, const Rect& rcMario)

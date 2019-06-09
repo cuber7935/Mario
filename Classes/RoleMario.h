@@ -39,12 +39,13 @@ public:
 	void unsetGodMode();
 
 	/* 状态变量的保存 */
-	bool _big = false;
-	bool _flying = false;
-	bool _autoCtrl1 = false;
-	bool _autoCtrl2 = false;
+	bool _big		= false;		// 大人
+	bool _flying	= false;        // 飞行
+	bool _autoCtrl1 = false;		// 自动控制1
+	bool _autoCtrl2 = false;		// 自动控制2
+	bool _godMode	= false;		// 无敌模式
 
-	Role* _ladder = nullptr;
+	Role* _ladder	= nullptr;      // 梯子
 };
 
 #endif

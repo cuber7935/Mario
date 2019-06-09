@@ -1,35 +1,13 @@
-
-#ifndef __RoleTortoise_H__
-#define __RoleTortoise_H__
-
+#ifndef _ROLE_TORTOISE_H_
+#define _ROLE_TORTOISE_H_
 
 #include "Role.h"
 
+// ÎÚ¹ê
 class RoleTortoise : public Role
 {
 public:
 	virtual bool init(ValueMap& objProperty);
-
-	bool _bScared = false;
-	bool _bCrazy = false;
-
-	void setScared(bool scared)
-	{
-		if (_bScared != scared)
-		{
-			_bScared = scared;
-			updateStatus();
-		}
-	}
-	void setCrazy(bool crazy)
-	{
-		if (_bCrazy != crazy)
-		{
-			_bCrazy = crazy;
-			updateStatus();
-		}
-	}
-
 	void updateStatus();
 
 	virtual void moveLeft(float dt);
@@ -37,6 +15,13 @@ public:
 	virtual void moveDown(float dt);
 
 	CollisionResult collsion(Role*, const Rect&);
+
+	void setScared(bool scared);
+	void setCrazy(bool crazy);
+
+public:
+	bool _bScared = false;      // ÊÜ¾ªÏÅ
+	bool _bCrazy = false;       // ·è¿ñµÄ
 };
 
 

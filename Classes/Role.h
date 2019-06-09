@@ -9,26 +9,32 @@ class Role : public Sprite
 public:
 	/* 工厂创建函数 */
 	static Role* create(ValueMap& objProperty);
+
+	//	初始化
 	virtual bool init(ValueMap& objProperty);
 
+	// 定时器处理函数（负责角色运动）
 	void update(float);
 
 	// 动画操作
 public: 
+	// 执行动画
 	void runAnimation(const char* name);
+	
+	// 停止动画
 	void stopAnimation();
 
 	// 通过帧名 设置精灵帧
 	void setSpriteFrame(const char* name);
 
-	// 设置角色的状态（运动，朝向，更新状态）
+	// 设置角色的状态（运动，朝向，死亡，更新状态）
 public:
 	virtual void setRunning(bool run);
 	virtual void setRight(bool right);
 	virtual void setDead(bool deadByHit);
 	virtual void updateStatus(){}
 	
-	// 移动操作
+	// 移动操作（左右上下）
 public:
 	virtual void move(float);
 
@@ -58,32 +64,20 @@ public:
 
 	// 相关属性
 public:
-	int _gravity = 10;
-	int _speedDown = _gravity;
-	int _speed = 120;
-	int _speedUp = 0;
+	int _gravity		= 10;			// 加速度
+	int _speedDown		= _gravity;		// 向下速度（模拟 重力）
+	int _speed			= 120;			// 水平速度
+	int _speedUp		= 0;			// 向上速度
 
-	bool _right = true;  // 朝向 
-	bool _running = false; // 是否行走, 如果是怪物，表示该怪物已经参与游戏 
-	bool _dead = false;
-	bool _deadByHit = false; // deadBy...;
+	bool _right			= true;			// 朝向 
+	bool _running		= false;		// 是否行走, 如果是怪物，表示该怪物已经参与游戏 
+	bool _dead			= false;
+	bool _deadByHit		= false;		// deadBy...;
 
-	bool _godMode = false; // 无敌模式
-
-	Action* _animate = nullptr;
+	Action* _animate	= nullptr;
 	static TMXTiledMap* _map;
 
 	CC_PROPERTY(std::string, _type, Type);
-#if 0
-	// 获取首帧
-	void setSpriteFrameByAnimation(const char* name);
-
-	// 装载上帝模式
-	void setGodMode(float duration);
-
-	// 卸载上帝模式
-	void unsetGodMode();
-#endif
 };
 
 #endif

@@ -5,7 +5,6 @@ bool RoleLadderLR::init(ValueMap& objProperty)
 {
 	Role::init(objProperty);
 
-	/* LorR表示开始向哪个方向移动， ladderDis表示移动范围 */
 	_LorR = objProperty["LorR"].asInt();
 	_ladderDis = objProperty["ladderDis"].asInt();
 

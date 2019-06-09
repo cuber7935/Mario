@@ -12,6 +12,24 @@ bool RoleTortoise::init(ValueMap& objProperty)
 	return true;
 }
 
+void RoleTortoise::setScared(bool scared)
+{
+	if (_bScared != scared)
+	{
+		_bScared = scared;
+		updateStatus();
+	}
+}
+
+void RoleTortoise::setCrazy(bool crazy)
+{
+	if (_bCrazy != crazy)
+	{
+		_bCrazy = crazy;
+		updateStatus();
+	}
+}
+
 void RoleTortoise::moveLeft(float dt)
 {
 	if (!_running) return;

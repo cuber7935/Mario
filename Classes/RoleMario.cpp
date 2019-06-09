@@ -3,18 +3,11 @@
 // Mario对象的创始化
 bool RoleMario::init(ValueMap& objProperty)
 {
-	Role::init(objProperty);
+	if (!Role::init(objProperty))
+		return false;
 
-	// 根据状态来显示Mario的样子，状态什么时候初始化？？该对象被创建时，构造时，已经初始化
+	// 根据状态来显示Mario的样子
 	updateStatus();
-
-	/* 034. 启动定时器，检测mario下降，任何时候都要检测马里奥是否能下降
-		Mario下降的因素有两个，跳起来然后下降，走路时，在悬崖边掉下去，先忽略，回头看，先看jz函数
-	*/
-	/*042. 下落*/
-
-
-	_ladder = nullptr;
 
 	return true;
 }
@@ -44,7 +37,6 @@ void RoleMario::setFlying(bool fly)
 	updateStatus();
 }
 
-
 void RoleMario::setBig(bool big)
 {
 	if (_big == big) return;
@@ -69,8 +61,6 @@ void RoleMario::setRight(bool right)
 	updateStatus();
 }
 
-
-
 void RoleMario::moveLeft(float dt)
 {
 	if (_autoCtrl1 || _autoCtrl2) return;
@@ -78,12 +68,11 @@ void RoleMario::moveLeft(float dt)
 	if (_right) return;
 	if (_dead) return;
 
-//	if (在窗口左侧边沿) return;
+	// 处理在窗口左侧边沿 问题
 	Vec2 posInMap = this->getPosition();
 	Vec2 posInWorld = this->_map->convertToWorldSpace(posInMap);
 	if (posInWorld.x <= 0)
 		return;
-
 
 	this->setPositionX(this->getPositionX() - dt*_speed);
 
@@ -91,7 +80,6 @@ void RoleMario::moveLeft(float dt)
 	{
 		this->setPositionX(this->getPositionX() + dt*_speed);
 	}
-
 }
 
 void RoleMario::moveRight(float dt)

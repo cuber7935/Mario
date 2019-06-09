@@ -1,6 +1,9 @@
-#ifndef __RoleBossBullet_H__
-#define __RoleBossBullet_H__
+#ifndef _ROLE_BOSS_BULLET_H_
+#define _ROLE_BOSS_BULLET_H_
+
 #include "Role.h"
+
+// BOSS ×Óµ¯
 class RoleBossBullet:public Role
 {
 public:

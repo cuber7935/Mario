@@ -16,7 +16,7 @@
 #include "RoleBossBullet.h"
 #include "RoleBridgeStart.h"
 
-TMXTiledMap* Role::_map;
+TMXTiledMap* Role::_map = nullptr;
 
 // 创建角色，工厂类的创建函数，并非创建该类的对象，而是别的类对象
 Role* Role::create(ValueMap& objProperty)
@@ -66,10 +66,13 @@ Role* Role::create(ValueMap& objProperty)
 
 	if (type == "fire_string")
 		role = new RoleFireString;
+
 	if (type == "boss")
 		role = new RoleBoss;
+	
 	if (type == "bossbullet")
 		role = new RoleBossBullet;
+	
 	if (type == "bridgestartpos")
 		role = new RoleBridgeStart;
 
@@ -80,6 +83,29 @@ Role* Role::create(ValueMap& objProperty)
 		role->autorelease();
 	}
 	return role;
+}
+
+bool Role::init(ValueMap& objProperty)
+{
+	if (!Sprite::init())
+		return false;
+
+	/* 设置角色的位置 */
+	int x = objProperty["x"].asInt();
+	int y = objProperty["y"].asInt() - 16;
+	this->setPosition(x, y);
+	this->setAnchorPoint(Vec2::ANCHOR_BOTTOM_LEFT);
+
+	setType(objProperty["type"].asString());
+
+	scheduleUpdate();
+
+	return true;
+}
+
+void Role::update(float dt)
+{
+	move(dt);
 }
 
 void Role::setRunning(bool run)
@@ -105,7 +131,6 @@ void Role::setDead(bool deadByHit)
 	updateStatus();
 }
 
-
 void Role::setSpriteFrame(const char* name)
 {
 	SpriteFrame* frame = SpriteFrameCache::getInstance()->getSpriteFrameByName(name);
@@ -113,15 +138,7 @@ void Role::setSpriteFrame(const char* name)
 	Sprite::setSpriteFrame(frame);
 }
 
-void Role::stopAnimation()
-{
-	if (_animate)
-	{
-		stopAction(_animate);
-		_animate = nullptr;
-	}
-}
-
+// 执行动画
 void Role::runAnimation(const char* name)
 {
 	Animation* ani = AnimationCache::getInstance()->getAnimation(name);
@@ -131,28 +148,15 @@ void Role::runAnimation(const char* name)
 	_animate = rep;
 }
 
-bool Role::init(ValueMap& objProperty)
+// 停止动画
+void Role::stopAnimation()
 {
-	Sprite::init();
-
-	/* 设置角色的位置 */
-	int x = objProperty["x"].asInt();
-	int y = objProperty["y"].asInt() - 16;
-	this->setPosition(x, y);
-	this->setAnchorPoint(Vec2::ANCHOR_BOTTOM_LEFT);
-
-	setType(objProperty["type"].asString());
-
-	scheduleUpdate();
-
-	return true;
+	if (_animate)
+	{
+		stopAction(_animate);
+		_animate = nullptr;
+	}
 }
-
-void Role::update(float dt)
-{
-	move(dt);
-}
-
 
 Sprite* Role::getHitBlock()
 {

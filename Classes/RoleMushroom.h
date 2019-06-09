@@ -1,10 +1,9 @@
-
-#ifndef __RoleMushroom_H__
-#define __RoleMushroom_H__
-
+#ifndef _ROLE_MUSHROOM_H_
+#define _ROLE_MUSHROOM_H_
 
 #include "Role.h"
 
+// Ä¢¹½
 class RoleMushroom : public Role
 {
 public:

@@ -56,10 +56,9 @@ void RoleMushroom::moveDown(float dt)
 		// 如果未来的那个位置，有阻挡，再退回来
 		this->setPositionY(this->getPositionY() + _speedDown*dt);
 		
-		//this->moveDownAjust();
 		util->moveDownAjust(this);
 
-		// 044. Mario这帧有阻挡，上一次调用这个函数有两种情况
+		//  Mario这帧有阻挡，上一次调用这个函数有两种情况
 		// a.上一次调用时就已经落地
 		// b.上一次调用该函数moveDown时，没有被阻挡
 
@@ -68,13 +67,7 @@ void RoleMushroom::moveDown(float dt)
 		return;
 	}
 
-	
-
-	// 设置Mario的位置
-	//	this->setPositionY(this->getPositionY() - _speedDown*dt);
-	// 增加下降速度
 	_speedDown += _gravity;
-
 }
 void RoleMushroom::moveLeft(float dt)
 {
@@ -107,8 +100,6 @@ void RoleMushroom::moveRight(float dt)
 		_right = false;
 	}
 }
-
-
 
 void RoleMushroom::updateStatus()
 {

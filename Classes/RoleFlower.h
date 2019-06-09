@@ -1,17 +1,18 @@
-
-#ifndef __RoleFlower_H__
-#define __RoleFlower_H__
-
+#ifndef _ROLE_FLOWER_H_
+#define _ROLE_FLOWER_H_
 
 #include "Role.h"
 
+// »¨¶ä
 class RoleFlower : public Role
 {
 public:
 	virtual bool init(ValueMap& objProperty);
 
 	virtual CollisionResult collsion(Role*, const Rect&);
-	bool _bPaused=false;
+
+private:
+	bool _bPaused = false;
 };
 
 
